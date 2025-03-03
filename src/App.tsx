@@ -1,12 +1,13 @@
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 import { motion } from "framer-motion";
+import { OrbitControls, Html } from "@react-three/drei";
 import Hero from "./components/Hero";
 import About from "./components/About";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Navbar from "./components/Navbar";
-import React3DLogo from "./components/React3DLogo";
+import ReactLogo from "./components/React3DLogo"; // Yeni isimle import edin
 
 function App() {
   return (
@@ -20,37 +21,44 @@ function App() {
         <div className="absolute inset-0">
           <Canvas camera={{ position: [0, 0, 10], fov: 40 }}>
             <Suspense fallback={null}>
-              <React3DLogo />
+              <ReactLogo />
+              <OrbitControls
+                enableDamping
+                dampingFactor={0.25}
+                enableZoom={false}
+              />
             </Suspense>
           </Canvas>
-        </div>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="absolute bottom-20 left-1/2 transform -translate-x-1/2 text-center w-full px-4 z-10"
-        >
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-[#61dafb]">
-            Emre Can Berktaş
-          </h1>
-          <p className="text-xl md:text-2xl text-[#61dafb]">React Developer</p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 1 }}
-            className="mt-8"
+            transition={{ duration: 1, delay: 0.5 }}
+            className="absolute bottom-20 left-1/2 transform -translate-x-1/2 text-center w-full px-4 z-10"
           >
-            <a
-              href="#projects"
-              className="px-8 py-3 bg-[#61dafb]/10 hover:bg-[#61dafb]/20 border border-[#61dafb]/20 rounded-full text-[#61dafb] font-medium transition-all duration-300 hover:shadow-lg hover:shadow-[#61dafb]/20 group"
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-[#61dafb]">
+              Emre Can Berktaş
+            </h1>
+            <p className="text-xl md:text-2xl text-[#61dafb]">
+              React Developer
+            </p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 1 }}
+              className="mt-8"
             >
-              View My Work
-              <span className="inline-block ml-2 transform group-hover:translate-x-1 transition-transform">
-                →
-              </span>
-            </a>
+              <a
+                href="#projects"
+                className="px-8 py-3 bg-[#61dafb]/10 hover:bg-[#61dafb]/20 border border-[#61dafb]/20 rounded-full text-[#61dafb] font-medium transition-all duration-300 hover:shadow-lg hover:shadow-[#61dafb]/20 group"
+              >
+                View My Work
+                <span className="inline-block ml-2 transform group-hover:translate-x-1 transition-transform">
+                  →
+                </span>
+              </a>
+            </motion.div>
           </motion.div>
-        </motion.div>
+        </div>
       </section>
 
       {/* About Section */}
