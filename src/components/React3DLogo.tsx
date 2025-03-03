@@ -1,30 +1,14 @@
 import React, { useRef } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
+import { Line } from "@react-three/drei";
 import * as THREE from "three";
 
 const ReactLogo = () => {
   const coreRef = useRef<THREE.Mesh>(null);
-  const orbit1Ref = useRef<THREE.Line>(null);
-  const orbit2Ref = useRef<THREE.Line>(null);
-  const orbit3Ref = useRef<THREE.Line>(null);
+  const orbit1Ref = useRef<THREE.Group>(null);
+  const orbit2Ref = useRef<THREE.Group>(null);
+  const orbit3Ref = useRef<THREE.Group>(null);
   const electronsRef = useRef<THREE.Mesh[]>([]);
-
-  // Animasyon için useFrame hook'u
-  useFrame(({ clock }) => {
-    const time = clock.getElapsedTime();
-
-    if (coreRef.current) {
-      coreRef.current.rotation.y += 0.005;
-    }
-
-    // Elektronların hareketi
-    electronsRef.current.forEach((electron, index) => {
-      const offset = index * 2;
-      electron.position.x = 3.5 * Math.cos(time + offset);
-      electron.position.y = 3.5 * Math.sin(time + offset);
-    });
-  });
 
   // Eliptik orbit oluşturma fonksiyonu
   const createOrbit = (rotationX: number, rotationY: number) => {
@@ -42,6 +26,21 @@ const ReactLogo = () => {
     return points;
   };
 
+  useFrame(({ clock }) => {
+    const time = clock.getElapsedTime();
+
+    if (coreRef.current) {
+      coreRef.current.rotation.y += 0.005;
+    }
+
+    // Elektronların hareketi
+    electronsRef.current.forEach((electron, index) => {
+      const offset = index * 2;
+      electron.position.x = 3.5 * Math.cos(time + offset);
+      electron.position.y = 3.5 * Math.sin(time + offset);
+    });
+  });
+
   return (
     <>
       {/* Merkezdeki çekirdek */}
@@ -56,74 +55,43 @@ const ReactLogo = () => {
       </mesh>
 
       {/* Üç eliptik orbit */}
-      <line ref={orbit1Ref}>
-        <bufferGeometry attach="geometry">
-          <bufferAttribute
-            attach="attributes-position"
-            array={
-              new Float32Array(createOrbit(0, 0).flatMap((p) => [p.x, p.y, 0]))
-            }
-            itemSize={3}
-            count={51}
-          />
-        </bufferGeometry>
-        <lineBasicMaterial
+      <group ref={orbit1Ref}>
+        <Line
+          points={createOrbit(0, 0).map((p) => [p.x, p.y, 0])}
           color={0x61dafb}
+          lineWidth={2}
           transparent
           opacity={0.8}
-          linewidth={2}
         />
-      </line>
+      </group>
 
-      <line ref={orbit2Ref}>
-        <bufferGeometry attach="geometry">
-          <bufferAttribute
-            attach="attributes-position"
-            array={
-              new Float32Array(
-                createOrbit(Math.PI / 3, Math.PI / 6).flatMap((p) => [
-                  p.x,
-                  p.y,
-                  0,
-                ])
-              )
-            }
-            itemSize={3}
-            count={51}
-          />
-        </bufferGeometry>
-        <lineBasicMaterial
+      <group ref={orbit2Ref}>
+        <Line
+          points={createOrbit(Math.PI / 3, Math.PI / 6).map((p) => [
+            p.x,
+            p.y,
+            0,
+          ])}
           color={0x61dafb}
+          lineWidth={2}
           transparent
           opacity={0.8}
-          linewidth={2}
         />
-      </line>
+      </group>
 
-      <line ref={orbit3Ref}>
-        <bufferGeometry attach="geometry">
-          <bufferAttribute
-            attach="attributes-position"
-            array={
-              new Float32Array(
-                createOrbit(Math.PI / 6, Math.PI / 3).flatMap((p) => [
-                  p.x,
-                  p.y,
-                  0,
-                ])
-              )
-            }
-            itemSize={3}
-            count={51}
-          />
-        </bufferGeometry>
-        <lineBasicMaterial
+      <group ref={orbit3Ref}>
+        <Line
+          points={createOrbit(Math.PI / 6, Math.PI / 3).map((p) => [
+            p.x,
+            p.y,
+            0,
+          ])}
           color={0x61dafb}
+          lineWidth={2}
           transparent
           opacity={0.8}
-          linewidth={2}
         />
-      </line>
+      </group>
 
       {/* Elektronlar */}
       {[0, 1, 2].map((i) => (
@@ -144,13 +112,4 @@ const ReactLogo = () => {
   );
 };
 
-const React3DLogo = () => {
-  return (
-    <Canvas camera={{ position: [0, 0, 10], fov: 40 }}>
-      <ReactLogo />
-      <OrbitControls enableDamping dampingFactor={0.25} enableZoom={false} />
-    </Canvas>
-  );
-};
-
-export default React3DLogo;
+export default ReactLogo; // Artık React3DLogo yerine ReactLogo kullanıyoruz
