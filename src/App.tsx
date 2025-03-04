@@ -1,14 +1,9 @@
-import { Canvas } from "@react-three/fiber";
-import { Suspense } from "react";
 import { motion } from "framer-motion";
-import { OrbitControls, Html } from "@react-three/drei";
-import Hero from "./components/Hero";
 import About from "./components/About";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Navbar from "./components/Navbar";
-import ReactLogo from "./components/React3DLogo"; // Yeni isimle import edin
-
+import Model from "./components/Model";
 function App() {
   return (
     <div className="min-h-screen w-full bg-gradient-to-b from-slate-900 via-[#282c34] to-slate-900 text-white">
@@ -19,7 +14,7 @@ function App() {
       <section className="w-full h-screen relative overflow-hidden">
         <div className="absolute inset-0 w-full h-full bg-[radial-gradient(circle_at_50%_120%,rgba(97,218,251,0.1),transparent_50%)]"></div>
         <div className="absolute inset-0">
-          <Canvas camera={{ position: [0, 0, 10], fov: 40 }}>
+          {/* <Canvas camera={{ position: [0, 0, 10], fov: 40 }}>
             <Suspense fallback={null}>
               <ReactLogo />
               <OrbitControls
@@ -28,7 +23,10 @@ function App() {
                 enableZoom={false}
               />
             </Suspense>
-          </Canvas>
+          </Canvas> */}
+          <div>
+            <Model />
+          </div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
