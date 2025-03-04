@@ -40,8 +40,9 @@ const About = () => {
             className="text-indigo-200 mb-6 text-lg leading-relaxed"
           >
             I'm a passionate web developer with expertise in modern web
-            technologies. I love creating beautiful, responsive, and
-            user-friendly websites that solve real-world problems.
+            technologies. I specialize in React on the frontend, constantly
+            exploring new ways to enhance performance and create seamless user
+            experiences.
           </motion.p>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -52,6 +53,17 @@ const About = () => {
             With a strong foundation in front-end development and a growing
             expertise in 3D web experiences, I'm always excited to take on new
             challenges and learn new technologies.
+          </motion.p>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-indigo-200 mb-8 text-lg leading-relaxed"
+          >
+            Beyond coding, I’m a fitness enthusiast who enjoys hitting the gym
+            to stay active and energized. When I’m not working on projects or
+            learning something new, you’ll probably find me playing computer
+            games, unwinding with a great RPG or strategy game.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
