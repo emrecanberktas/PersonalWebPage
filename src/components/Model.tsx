@@ -1,101 +1,82 @@
 import React, { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Line } from "@react-three/drei";
+import { OrbitControls, Line, Trail, Sphere, Float } from "@react-three/drei";
 import * as THREE from "three";
+import { Bloom, EffectComposer } from "@react-three/postprocessing";
 
-const ReactLogo = () => {
-  const coreRef = useRef<THREE.Mesh>(null);
-  const electronsRef = useRef<THREE.Mesh[]>([]);
+interface ReactLogoProps {
+  [key: string]: any;
+}
 
-  // Create elliptical orbit points
-  const createOrbit = (rotation: number) => {
-    const points = [];
-    for (let i = 0; i <= 64; i++) {
-      const angle = (i / 64) * 2 * Math.PI;
-      const x = 3 * Math.cos(angle);
-      const y = 3 * Math.sin(angle);
-      points.push(new THREE.Vector3(x, y, 0));
-    }
-    const rotationMatrix = new THREE.Matrix4();
-    rotationMatrix.makeRotationZ(rotation);
-    return points.map((point) => point.applyMatrix4(rotationMatrix));
-  };
+interface ElectronProps {
+  position?: [number, number, number];
+  rotation?: [number, number, number];
+  speed?: number;
+  radius?: number;
+}
 
-  useFrame(({ clock }) => {
-    const t = clock.getElapsedTime();
+const ReactLogo: React.FC<ReactLogoProps> = (props) => {
+  return (
+    <group {...props}>
+      <Electron position={[0, 0, 0.5]} speed={6} radius={2.5} />
+      <Electron
+        position={[0, 0, 0.5]}
+        rotation={[0, 0, Math.PI / 3]}
+        speed={7}
+        radius={2.5}
+      />
+      <Electron
+        position={[0, 0, 0.5]}
+        rotation={[0, 0, -Math.PI / 3]}
+        speed={8}
+        radius={2.5}
+      />
+      <Sphere args={[0.35, 64, 64]}>
+        <meshBasicMaterial color="#61DAFB" toneMapped={false} />
+      </Sphere>
+    </group>
+  );
+};
 
-    // Rotate core
-    if (coreRef.current) {
-      coreRef.current.rotation.y = t * 0.5;
-    }
+const Electron: React.FC<ElectronProps> = ({
+  radius = 2.5,
+  speed = 6,
+  ...props
+}) => {
+  const ref = useRef<THREE.Group>(null);
 
-    // Move electrons
-    electronsRef.current.forEach((electron, i) => {
-      if (electron) {
-        const angle = t * 1.5 + (i * 2 * Math.PI) / 3;
-        const rotation = (i * 2 * Math.PI) / 3;
-        electron.position.x = 3 * Math.cos(angle) * Math.cos(rotation);
-        electron.position.y = 3 * Math.cos(angle) * Math.sin(rotation);
-        electron.position.z = 3 * Math.sin(angle);
-      }
-    });
+  useFrame((state) => {
+    if (!ref.current) return;
+    const t = state.clock.getElapsedTime() * speed;
+    ref.current.position.set(
+      Math.sin(t) * radius,
+      (Math.cos(t) * radius * Math.atan(t)) / Math.PI / 1.25,
+      0
+    );
   });
 
   return (
-    <>
-      {/* Core */}
-      <mesh ref={coreRef}>
-        <sphereGeometry args={[1, 32, 32]} />
-        <meshPhongMaterial
-          color="#61DAFB"
-          emissive="#61DAFB"
-          emissiveIntensity={0.3}
-          shininess={80}
-        />
-      </mesh>
-
-      {/* Orbits */}
-      {[0, Math.PI / 3, -Math.PI / 3].map((rotation, i) => (
-        <Line
-          key={i}
-          points={createOrbit(rotation)}
-          color="#61DAFB"
-          lineWidth={1}
-          transparent
-          opacity={0.5}
-        />
-      ))}
-
-      {/* Electrons */}
-      {[0, 1, 2].map((i) => (
-        <mesh
-          key={i}
-          ref={(el) => {
-            if (el) electronsRef.current[i] = el;
-          }}
-        >
-          <sphereGeometry args={[0.3, 16, 16]} />
-          <meshPhongMaterial
-            color="#61DAFB"
-            emissive="#61DAFB"
-            emissiveIntensity={0.5}
-          />
+    <group ref={ref} {...props}>
+      <Trail width={5} length={6} color="#61DAFB" attenuation={(t) => t * t}>
+        <mesh>
+          <sphereGeometry args={[0.25]} />
+          <meshBasicMaterial color="#61DAFB" toneMapped={false} />
         </mesh>
-      ))}
-
-      {/* Lighting */}
-      <ambientLight intensity={0.8} />
-      <pointLight position={[10, 10, 10]} intensity={1} />
-      <pointLight position={[-10, -10, -10]} intensity={0.5} />
-    </>
+      </Trail>
+    </group>
   );
 };
 
 const Model = () => {
   return (
-    <div className="h-[600px] w-full">
-      <Canvas camera={{ position: [0, 0, 10], fov: 45 }}>
-        <ReactLogo />
+    <div className="w-full aspect-square max-w-[700px] mx-auto">
+      <Canvas camera={{ position: [0, 0, 10] }}>
+        <Float>
+          <ReactLogo />
+        </Float>
+        <EffectComposer>
+          <Bloom mipmapBlur luminanceThreshold={1} radius={0.7} />
+        </EffectComposer>
         <OrbitControls
           enableZoom={false}
           enablePan={false}
@@ -106,5 +87,4 @@ const Model = () => {
     </div>
   );
 };
-
 export default Model;
