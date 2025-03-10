@@ -12,55 +12,84 @@ interface ElectronProps {
   position?: [number, number, number];
   rotation?: [number, number, number];
   speed?: number;
-  radius?: number;
+  radiusX?: number;
+  radiusY?: number;
+  phase?: number;
+  color?: [number, number, number];
 }
 
 const ReactLogo: React.FC<ReactLogoProps> = (props) => {
   return (
     <group {...props}>
-      <Electron position={[0, 0, 0.5]} speed={6} radius={2.5} />
       <Electron
         position={[0, 0, 0.5]}
-        rotation={[0, 0, Math.PI / 3]}
-        speed={7}
-        radius={2.5}
+        speed={6}
+        radiusX={3.2}
+        radiusY={1.8}
+        phase={0}
+        rotation={[Math.PI, Math.PI, 0]}
+        color={[2, 10, 15]}
       />
       <Electron
         position={[0, 0, 0.5]}
-        rotation={[0, 0, -Math.PI / 3]}
-        speed={8}
-        radius={2.5}
+        speed={6.5}
+        radiusX={3}
+        radiusY={2.1}
+        phase={Math.PI / 2}
+        rotation={[-Math.PI / 4, -Math.PI / 6, Math.PI / 3]}
+        color={[2, 10, 15]}
+      />
+      <Electron
+        position={[0, 0, 0.5]}
+        speed={7}
+        radiusX={2.8}
+        radiusY={1.9}
+        phase={Math.PI}
+        rotation={[-Math.PI / 5, Math.PI / 7, -Math.PI / 3]}
+        color={[2, 10, 15]}
       />
       <Sphere args={[0.35, 64, 64]}>
-        <meshBasicMaterial color="#61DAFB" toneMapped={false} />
+        <meshBasicMaterial color={[6, 10, 15]} toneMapped={false} />
       </Sphere>
     </group>
   );
 };
 
 const Electron: React.FC<ElectronProps> = ({
-  radius = 2.5,
+  radiusX = 3,
+  radiusY = 1.8,
   speed = 6,
+  phase = 0,
+  rotation = [0, 0, 0],
+  color = [10, 8, 15],
   ...props
 }) => {
   const ref = useRef<THREE.Group>(null);
 
   useFrame((state) => {
     if (!ref.current) return;
-    const t = state.clock.getElapsedTime() * speed;
-    ref.current.position.set(
-      Math.sin(t) * radius,
-      (Math.cos(t) * radius * Math.atan(t)) / Math.PI / 1.25,
-      0
-    );
+    const t = state.clock.getElapsedTime() * speed + phase;
+
+    const x = Math.sin(t) * radiusX;
+    const y = Math.cos(t) * radiusY;
+
+    const position = new THREE.Vector3(x, y, 0);
+    position.applyEuler(new THREE.Euler(...rotation));
+
+    ref.current.position.set(position.x, position.y, position.z);
   });
 
   return (
     <group ref={ref} {...props}>
-      <Trail width={5} length={6} color="#61DAFB" attenuation={(t) => t * t}>
+      <Trail
+        width={5}
+        length={7}
+        color={new THREE.Color(...color)}
+        attenuation={(t) => t * t}
+      >
         <mesh>
           <sphereGeometry args={[0.25]} />
-          <meshBasicMaterial color="#61DAFB" toneMapped={false} />
+          <meshBasicMaterial color={color} toneMapped={false} />
         </mesh>
       </Trail>
     </group>
@@ -71,11 +100,11 @@ const Model = () => {
   return (
     <div className="w-full aspect-square max-w-[700px] mx-auto">
       <Canvas camera={{ position: [0, 0, 10] }}>
-        <Float>
+        <Float speed={4} rotationIntensity={1} floatIntensity={2}>
           <ReactLogo />
         </Float>
         <EffectComposer>
-          <Bloom mipmapBlur luminanceThreshold={1} radius={0.7} />
+          <Bloom mipmapBlur luminanceThreshold={1} radius={0.3} />
         </EffectComposer>
         <OrbitControls
           enableZoom={false}
