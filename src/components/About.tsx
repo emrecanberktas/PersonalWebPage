@@ -2,17 +2,24 @@ import { motion } from "framer-motion";
 
 interface Skill {
   name: string;
-  level: number;
   icon: string;
 }
 
 const skills: Skill[] = [
-  { name: "React", level: 90, icon: "⚛️" },
-  { name: "TypeScript", level: 85, icon: "📘" },
-  { name: "Three.js", level: 75, icon: "🎮" },
-  { name: "Node.js", level: 80, icon: "🟢" },
-  { name: "CSS/SCSS", level: 85, icon: "🎨" },
-  { name: "Git", level: 88, icon: "📦" },
+  { name: "HTML/CSS", icon: "🎨" },
+  { name: "Tailwind CSS", icon: "🌊" },
+  { name: "JavaScript", icon: "📜" },
+  { name: "TypeScript", icon: "📘" },
+  { name: "React", icon: "⚛️" },
+  { name: "Next.js", icon: "▲" },
+  { name: "Material UI", icon: "🎯" },
+  { name: "Shadcn UI", icon: "🎭" },
+  { name: "Redux", icon: "🔄" },
+  { name: "Zustand", icon: "🐻" },
+  { name: "React Query", icon: "🔍" },
+  { name: "Git", icon: "📦" },
+  { name: "Jest", icon: "🃏" },
+  { name: "Data Visualization", icon: "📊" },
 ];
 
 const About = () => {
@@ -60,9 +67,9 @@ const About = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-indigo-200 mb-8 text-lg leading-relaxed"
           >
-            Beyond coding, I’m a fitness enthusiast who enjoys hitting the gym
-            to stay active and energized. When I’m not working on projects or
-            learning something new, you’ll probably find me playing computer
+            Beyond coding, I'm a fitness enthusiast who enjoys hitting the gym
+            to stay active and energized. When I'm not working on projects or
+            learning something new, you'll probably find me playing computer
             games, unwinding with a great RPG or strategy game.
           </motion.p>
           <motion.div
@@ -84,7 +91,7 @@ const About = () => {
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
-          className="grid grid-cols-2 gap-6"
+          className="grid grid-cols-2 sm:grid-cols-3 gap-4"
         >
           {skills.map((skill, index) => (
             <motion.div
@@ -93,25 +100,10 @@ const About = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               whileHover={{ scale: 1.05 }}
-              className="bg-slate-800/50 backdrop-blur-sm p-6 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-indigo-500/20 transition-all duration-300"
+              className="bg-slate-800/50 backdrop-blur-sm p-4 rounded-xl shadow-xl hover:shadow-2xl hover:shadow-indigo-500/20 transition-all duration-300 flex flex-col items-center justify-center text-center"
             >
-              <div className="text-3xl mb-4">{skill.icon}</div>
-              <h3 className="text-lg font-semibold mb-3 text-white">
-                {skill.name}
-              </h3>
-              <div className="relative w-full h-2 bg-slate-700 rounded-full overflow-hidden">
-                <motion.div
-                  initial={{ width: 0 }}
-                  whileInView={{ width: `${skill.level}%` }}
-                  transition={{ duration: 1, delay: 0.5 }}
-                  className="absolute top-0 left-0 h-full rounded-full bg-gradient-to-r from-indigo-600 to-indigo-400"
-                />
-              </div>
-              <div className="mt-2 text-right">
-                <span className="text-indigo-300 text-sm font-medium">
-                  {skill.level}%
-                </span>
-              </div>
+              <div className="text-2xl mb-2">{skill.icon}</div>
+              <h3 className="text-sm font-medium text-white">{skill.name}</h3>
             </motion.div>
           ))}
         </motion.div>
