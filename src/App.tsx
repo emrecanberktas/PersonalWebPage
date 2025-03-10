@@ -13,17 +13,7 @@ function App() {
       {/* Hero Section with 3D */}
       <section className="w-full h-screen relative overflow-hidden">
         <div className="absolute inset-0 w-full h-full bg-[radial-gradient(circle_at_50%_120%,rgba(97,218,251,0.1),transparent_50%)]"></div>
-        <div className="absolute inset-0">
-          {/* <Canvas camera={{ position: [0, 0, 10], fov: 40 }}>
-            <Suspense fallback={null}>
-              <ReactLogo />
-              <OrbitControls
-                enableDamping
-                dampingFactor={0.25}
-                enableZoom={false}
-              />
-            </Suspense>
-          </Canvas> */}
+        <div>
           <div>
             <Model />
           </div>
