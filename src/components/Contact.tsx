@@ -5,10 +5,6 @@ import emailjs from "@emailjs/browser";
 import toast, { Toaster } from "react-hot-toast";
 
 const Contact = () => {
-  useEffect(() => {
-    emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
-  }, []);
-
   const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
     user_name: "",
@@ -24,7 +20,7 @@ const Contact = () => {
           import.meta.env.VITE_EMAILJS_SERVICE_ID,
           import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
           formRef.current,
-          import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+          { publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY }
         );
         toast.success("Message sent successfully!");
         // Reset form
@@ -34,7 +30,6 @@ const Contact = () => {
           message: "",
         });
       } catch (error) {
-        console.error("EmailJS Error:", error);
         toast.error("Failed to send message. Please try again.");
       }
     }
