@@ -2,24 +2,38 @@ import { motion } from "framer-motion";
 import { useRef, useState } from "react";
 import { FaGithub, FaLinkedin, FaMapMarkerAlt, FaClock } from "react-icons/fa";
 import emailjs from "@emailjs/browser";
+import toast, { Toaster } from "react-hot-toast";
 
 const Contact = () => {
   const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
+    user_name: "",
+    user_email: "",
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (formRef.current) {
-      emailjs.sendForm(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        formRef.current,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      );
+      try {
+        const loadingToast = toast.loading("Sending message...");
+        await emailjs.sendForm(
+          import.meta.env.VITE_EMAILJS_SERVICE_ID,
+          import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+          formRef.current,
+          import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+        );
+        toast.dismiss(loadingToast);
+        toast.success("Message sent successfully!");
+        // Reset form
+        setFormData({
+          user_name: "",
+          user_email: "",
+          message: "",
+        });
+      } catch (error) {
+        toast.error("Failed to send message. Please try again.");
+      }
     }
   };
 
@@ -47,6 +61,15 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen py-20 bg-gradient-to-b from-slate-900 to-slate-800">
+      <Toaster
+        position="bottom-right"
+        toastOptions={{
+          style: {
+            background: "#1e293b",
+            color: "#fff",
+          },
+        }}
+      />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -78,16 +101,16 @@ const Contact = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="relative">
                   <label
-                    htmlFor="name"
+                    htmlFor="user_name"
                     className="block text-sm font-medium text-gray-400 mb-2"
                   >
                     Name
                   </label>
                   <input
                     type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
+                    id="user_name"
+                    name="user_name"
+                    value={formData.user_name}
                     onChange={handleChange}
                     required
                     className="w-full bg-slate-800/50 border-2 border-slate-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500 transition-colors"
@@ -96,16 +119,16 @@ const Contact = () => {
                 </div>
                 <div className="relative">
                   <label
-                    htmlFor="email"
+                    htmlFor="user_email"
                     className="block text-sm font-medium text-gray-400 mb-2"
                   >
                     Email
                   </label>
                   <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
+                    type="user_email"
+                    id="user_email"
+                    name="user_email"
+                    value={formData.user_email}
                     onChange={handleChange}
                     required
                     className="w-full bg-slate-800/50 border-2 border-slate-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500 transition-colors"
