@@ -1,10 +1,14 @@
 import { motion } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { FaGithub, FaLinkedin, FaMapMarkerAlt, FaClock } from "react-icons/fa";
 import emailjs from "@emailjs/browser";
 import toast, { Toaster } from "react-hot-toast";
 
 const Contact = () => {
+  useEffect(() => {
+    emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+  }, []);
+
   const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
     user_name: "",
@@ -30,6 +34,7 @@ const Contact = () => {
           message: "",
         });
       } catch (error) {
+        console.error("EmailJS Error:", error);
         toast.error("Failed to send message. Please try again.");
       }
     }
