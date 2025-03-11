@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import { FaGithub, FaLinkedin, FaMapMarkerAlt, FaClock } from "react-icons/fa";
 import emailjs from "@emailjs/browser";
 import toast, { Toaster } from "react-hot-toast";
