@@ -12,9 +12,12 @@ const Contact = () => {
     message: "",
   });
 
+  const [isSending, setSending] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (formRef.current) {
+      setSending(true);
       try {
         await emailjs.sendForm(
           import.meta.env.VITE_EMAILJS_SERVICE_ID,
@@ -23,7 +26,6 @@ const Contact = () => {
           { publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY }
         );
         toast.success("Message sent successfully!");
-        // Reset form
         setFormData({
           user_name: "",
           user_email: "",
@@ -32,6 +34,8 @@ const Contact = () => {
       } catch (error) {
         console.error("EmailJS Error:", error);
         toast.error("Failed to send message. Please try again.");
+      } finally {
+        setSending(false);
       }
     }
   };
@@ -154,12 +158,22 @@ const Contact = () => {
                 />
               </div>
               <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={{ scale: isSending ? 1 : 1.02 }}
+                whileTap={{ scale: isSending ? 1 : 0.98 }}
                 type="submit"
-                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-lg font-medium transition-all duration-300 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-slate-900 shadow-lg shadow-indigo-500/20"
+                disabled={isSending}
+                className={`w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-lg font-medium transition-all duration-300 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-slate-900 shadow-lg shadow-indigo-500/20 ${
+                  isSending ? "opacity-70 cursor-not-allowed" : ""
+                }`}
               >
-                Send Message
+                {isSending ? (
+                  <div className="flex items-center justify-center">
+                    <div className="w-5 h-5 border-t-2 border-b-2 border-white rounded-full animate-spin mr-2"></div>
+                    Sending...
+                  </div>
+                ) : (
+                  "Send Message"
+                )}
               </motion.button>
             </form>
           </motion.div>
