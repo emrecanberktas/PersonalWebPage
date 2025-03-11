@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { FaGithub, FaLinkedin, FaMapMarkerAlt, FaClock } from "react-icons/fa";
+import emailjs from "@emailjs/browser";
 
 const Contact = () => {
+  const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -11,7 +13,14 @@ const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+    if (formRef.current) {
+      emailjs.sendForm(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        formRef.current,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      );
+    }
   };
 
   const handleChange = (
@@ -62,6 +71,7 @@ const Contact = () => {
             className="lg:col-span-3 order-2 lg:order-1"
           >
             <form
+              ref={formRef}
               onSubmit={handleSubmit}
               className="space-y-6 bg-slate-800/30 backdrop-blur-sm p-8 rounded-2xl border border-slate-700/50"
             >
