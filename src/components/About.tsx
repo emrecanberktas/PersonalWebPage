@@ -1,15 +1,11 @@
 import { motion } from "framer-motion";
 import { Canvas } from "@react-three/fiber";
 import {
-  OrbitControls,
   Text,
-  Stars,
-  Float,
   MeshWobbleMaterial,
   MeshDistortMaterial,
-  DragControls,
 } from "@react-three/drei";
-import { Physics, useSphere, useBox, usePlane } from "@react-three/cannon";
+import { Physics, useBox, usePlane } from "@react-three/cannon";
 import { useRef, useState, useMemo } from "react";
 import * as THREE from "three";
 import { useFrame, ThreeEvent } from "@react-three/fiber";
@@ -116,7 +112,7 @@ const SkillShape = ({
     [api, isDragging, position, velocity]
   );
 
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     if (!isDragging) {
       meshRef.current.rotation.x += delta * 0.3;
       meshRef.current.rotation.y += delta * 0.4;
