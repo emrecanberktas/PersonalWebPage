@@ -16,14 +16,12 @@ const Contact = () => {
     e.preventDefault();
     if (formRef.current) {
       try {
-        const loadingToast = toast.loading("Sending message...");
         await emailjs.sendForm(
           import.meta.env.VITE_EMAILJS_SERVICE_ID,
           import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
           formRef.current,
           import.meta.env.VITE_EMAILJS_PUBLIC_KEY
         );
-        toast.dismiss(loadingToast);
         toast.success("Message sent successfully!");
         // Reset form
         setFormData({
@@ -125,7 +123,7 @@ const Contact = () => {
                     Email
                   </label>
                   <input
-                    type="user_email"
+                    type="email"
                     id="user_email"
                     name="user_email"
                     value={formData.user_email}
