@@ -100,7 +100,7 @@ const Model = () => {
   return (
     <div className="w-full aspect-square max-w-[700px] mx-auto">
       <Canvas camera={{ position: [0, 0, 10] }}>
-        <Float speed={4} rotationIntensity={1} floatIntensity={2}>
+        <Float speed={7} rotationIntensity={1} floatIntensity={2}>
           <ReactLogo />
         </Float>
         <EffectComposer>
