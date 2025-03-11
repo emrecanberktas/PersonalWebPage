@@ -30,6 +30,7 @@ const Contact = () => {
           message: "",
         });
       } catch (error) {
+        console.error("EmailJS Error:", error);
         toast.error("Failed to send message. Please try again.");
       }
     }
