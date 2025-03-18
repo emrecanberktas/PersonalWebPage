@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { FaGithub, FaLinkedin, FaMapMarkerAlt, FaClock } from "react-icons/fa";
 import emailjs from "@emailjs/browser";
 import toast, { Toaster } from "react-hot-toast";
+
+const COOLDOWN_TIME = 5 * 60 * 1000; // 5 minutes in milliseconds
 
 const Contact = () => {
   const formRef = useRef<HTMLFormElement>(null);
@@ -13,9 +15,48 @@ const Contact = () => {
   });
 
   const [isSending, setSending] = useState(false);
+  const [timeLeft, setTimeLeft] = useState<number>(0);
+
+  useEffect(() => {
+    // Check if there's a cooldown timestamp in localStorage
+    const lastMessageTime = localStorage.getItem("lastMessageTime");
+    if (lastMessageTime) {
+      const timePassed = Date.now() - parseInt(lastMessageTime);
+      if (timePassed < COOLDOWN_TIME) {
+        setTimeLeft(Math.ceil((COOLDOWN_TIME - timePassed) / 1000));
+      }
+    }
+
+    // Set up timer to update countdown
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Check if user is in cooldown period
+    const lastMessageTime = localStorage.getItem("lastMessageTime");
+    if (lastMessageTime) {
+      const timePassed = Date.now() - parseInt(lastMessageTime);
+      if (timePassed < COOLDOWN_TIME) {
+        const remainingTime = Math.ceil((COOLDOWN_TIME - timePassed) / 1000);
+        toast.error(
+          `Please wait ${remainingTime} seconds before sending another message.`
+        );
+        return;
+      }
+    }
+
     if (formRef.current) {
       setSending(true);
       try {
@@ -26,6 +67,10 @@ const Contact = () => {
           { publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY }
         );
         toast.success("Message sent successfully!");
+        // Store the timestamp of successful message
+        localStorage.setItem("lastMessageTime", Date.now().toString());
+        setTimeLeft(COOLDOWN_TIME / 1000);
+
         setFormData({
           user_name: "",
           user_email: "",
@@ -158,12 +203,14 @@ const Contact = () => {
                 />
               </div>
               <motion.button
-                whileHover={{ scale: isSending ? 1 : 1.02 }}
-                whileTap={{ scale: isSending ? 1 : 0.98 }}
+                whileHover={{ scale: isSending || timeLeft > 0 ? 1 : 1.02 }}
+                whileTap={{ scale: isSending || timeLeft > 0 ? 1 : 0.98 }}
                 type="submit"
-                disabled={isSending}
+                disabled={isSending || timeLeft > 0}
                 className={`w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-lg font-medium transition-all duration-300 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-slate-900 shadow-lg shadow-indigo-500/20 ${
-                  isSending ? "opacity-70 cursor-not-allowed" : ""
+                  isSending || timeLeft > 0
+                    ? "opacity-70 cursor-not-allowed"
+                    : ""
                 }`}
               >
                 {isSending ? (
@@ -171,6 +218,8 @@ const Contact = () => {
                     <div className="w-5 h-5 border-t-2 border-b-2 border-white rounded-full animate-spin mr-2"></div>
                     Sending...
                   </div>
+                ) : timeLeft > 0 ? (
+                  `Wait ${timeLeft}s to send again`
                 ) : (
                   "Send Message"
                 )}
