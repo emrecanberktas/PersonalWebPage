@@ -6,7 +6,7 @@ import Navbar from "./components/Navbar";
 import Model from "./components/Model";
 function App() {
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-slate-900 via-[#282c34] to-slate-900 text-white">
+    <div className="min-h-screen w-full bg-gradient-to-b from-slate-900 via-[#282c34] to-slate-900 text-white overflow-x-hidden">
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(97,218,251,0.1),transparent_50%)] pointer-events-none"></div>
       <Navbar />
 
