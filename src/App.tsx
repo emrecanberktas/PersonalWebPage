@@ -6,7 +6,7 @@ import Navbar from "./components/Navbar";
 import Model from "./components/Model";
 function App() {
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-slate-900 via-[#282c34] to-slate-900 text-white overflow-x-hidden">
+    <div className="min-h-screen w-full bg-gradient-to-b from-slate-900 via-slate-900 to-slate-900 text-[#61dafb] overflow-x-hidden">
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(97,218,251,0.1),transparent_50%)] pointer-events-none"></div>
       <Navbar />
 
@@ -23,10 +23,10 @@ function App() {
             transition={{ duration: 1, delay: 0.5 }}
             className="absolute bottom-20 left-1/2 transform -translate-x-1/2 text-center w-full px-4 z-10"
           >
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-[#61dafb]">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-[#61dafb]">
               Emre Can Berktaş
             </h1>
-            <p className="text-xl md:text-2xl text-[#61dafb]">
+            <p className="text-xl md:text-2xl text-[#61dafb]/80">
               React Developer
             </p>
             <motion.div

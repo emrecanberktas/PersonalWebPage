@@ -21,7 +21,7 @@ const Navbar = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
-      className="fixed left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-sm"
+      className="fixed left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-sm border-b border-[#61dafb]/10"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
@@ -30,7 +30,7 @@ const Navbar = () => {
             className="flex-shrink-0 cursor-pointer"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           >
-            <span className="text-xl font-bold">Portfolio</span>
+            <span className="text-xl font-bold text-[#61dafb]">Portfolio</span>
           </motion.div>
 
           {/* Desktop Menu */}
@@ -40,7 +40,7 @@ const Navbar = () => {
                 <motion.a
                   key={item.title}
                   whileHover={{ scale: 1.05 }}
-                  className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
+                  className="text-[#61dafb]/80 hover:text-[#61dafb] px-3 py-2 rounded-md text-sm font-medium cursor-pointer transition-colors duration-300"
                   onClick={() => scrollToSection(item.href)}
                 >
                   {item.title}
@@ -103,15 +103,17 @@ const Navbar = () => {
         transition={{ duration: 0.3 }}
         className="md:hidden"
       >
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <div className="px-2 pt-2 pb-3 space-y-2 sm:px-3 bg-slate-900/50 backdrop-blur-sm rounded-b-lg border-t border-[#61dafb]/10">
           {menuItems.map((item) => (
-            <a
+            <motion.a
               key={item.title}
-              className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium cursor-pointer"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="text-[#61dafb]/80 hover:text-[#61dafb] hover:bg-[#61dafb]/10 block px-4 py-2.5 rounded-lg text-base font-medium cursor-pointer transition-all duration-300"
               onClick={() => scrollToSection(item.href)}
             >
               {item.title}
-            </a>
+            </motion.a>
           ))}
         </div>
       </motion.div>
