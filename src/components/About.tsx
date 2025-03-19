@@ -204,7 +204,7 @@ const About = () => {
             </motion.ul>
           </motion.div>
           <a
-            href="https://drive.google.com/file/d/1WDZkucfBsYT4Ho7m53alsZEUfb-x4APF/view?usp=drive_link"
+            href="https://drive.google.com/uc?export=download&id=1WDZkucfBsYT4Ho7m53alsZEUfb-x4APF"
             target="_blank"
             download
           >
