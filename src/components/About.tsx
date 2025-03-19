@@ -203,16 +203,22 @@ const About = () => {
               <li>Hover to see them transform</li>
             </motion.ul>
           </motion.div>
-          <motion.button
-            whileHover={{
-              scale: 1.05,
-              boxShadow: "0 0 30px rgba(139, 92, 246, 0.5)",
-            }}
-            whileTap={{ scale: 0.95 }}
-            className="bg-gradient-to-r from-cyan-500 to-purple-500 text-white px-8 py-4 rounded-xl transform transition-all duration-300 hover:from-purple-500 hover:to-cyan-500 mt-6"
+          <a
+            href="https://drive.google.com/file/d/1WDZkucfBsYT4Ho7m53alsZEUfb-x4APF/view?usp=drive_link"
+            target="_blank"
+            download
           >
-            Download Resume
-          </motion.button>
+            <motion.button
+              whileHover={{
+                scale: 1.05,
+                boxShadow: "0 0 30px rgba(139, 92, 246, 0.5)",
+              }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-gradient-to-r from-cyan-500 to-purple-500 text-white px-8 py-4 rounded-xl transform transition-all duration-300 hover:from-purple-500 hover:to-cyan-500 mt-6"
+            >
+              Download Resume
+            </motion.button>
+          </a>
         </motion.div>
 
         {/* Sağ Taraf: 3D Beceri Görselleştirme */}
