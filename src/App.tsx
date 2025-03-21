@@ -4,6 +4,8 @@ import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Navbar from "./components/Navbar";
 import Model from "./components/Model";
+import TechArticles from "./components/TechArticles";
+
 function App() {
   return (
     <div className="min-h-screen w-full bg-gradient-to-b from-slate-900 via-slate-900 to-slate-900 text-[#61dafb] overflow-x-hidden">
@@ -59,6 +61,22 @@ function App() {
           className="relative z-10"
         >
           <About />
+        </motion.div>
+      </section>
+
+      {/* Tech Articles Section */}
+      <section
+        className="w-full min-h-screen relative py-20"
+        id="tech-articles"
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_60%_50%,rgba(97,218,251,0.1),transparent_50%)]"></div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="relative z-10"
+        >
+          <TechArticles />
         </motion.div>
       </section>
 
