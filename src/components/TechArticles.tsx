@@ -11,34 +11,6 @@ interface Article {
 const TechArticles = () => {
   const articles: Article[] = [
     {
-      title: "Lorem Ipsum",
-      description: "Lorem Ipsum Doler Sit Amet",
-      date: "March 2024",
-      readTime: "5 min read",
-      link: "",
-    },
-    {
-      title: "Lorem Ipsum",
-      description: "Lorem Ipsum Doler Sit Amet",
-      date: "March 2024",
-      readTime: "5 min read",
-      link: "#",
-    },
-    {
-      title: "Lorem Ipsum",
-      description: "Lorem Ipsum Doler Sit Amet",
-      date: "March 2024",
-      readTime: "5 min read",
-      link: "#",
-    },
-    {
-      title: "Lorem Ipsum",
-      description: "Lorem Ipsum Doler Sit Amet",
-      date: "March 2024",
-      readTime: "5 min read",
-      link: "#",
-    },
-    {
       title: "JWT Security",
       description:
         "Do you store the JWT in localStorage, sessionStorage, Cookies?",
