@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
-import { Canvas } from "@react-three/fiber";
-
-import GameScene from "./GameScene";
+// import { Canvas } from "@react-three/fiber";
+// import GameScene from "./GameScene";
 const About = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-screen">
@@ -106,7 +105,7 @@ const About = () => {
         </motion.div>
 
         {/* Sağ Taraf: 3D Beceri Görselleştirme */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
@@ -116,7 +115,7 @@ const About = () => {
           <Canvas camera={{ position: [0, 0, 15], fov: 60 }}>
             <GameScene />
           </Canvas>
-        </motion.div>
+        </motion.div> */}
       </div>
     </div>
   );
