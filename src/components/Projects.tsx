@@ -10,20 +10,27 @@ interface Project {
 
 const projects: Project[] = [
   {
-    title: "Project 1",
+    title: "Page Notes",
     description:
-      "Description of your first project. What it does, why you built it, and what you learned.",
+      "A Chrome extension that allows users to highlight text on any webpage, add notes to it, and save them locally. The notes are associated with the webpage URL and can be quickly viewed or managed through a popup interface.",
     image: "/project1.jpg",
-    technologies: ["React", "TypeScript", "Three.js"],
-    link: "https://github.com/yourusername/project1",
+    technologies: ["React", "TypeScript", "Shadcn UI", "Zustand"],
+    link: "https://github.com/emrecanberktas/Notes",
   },
   {
     title: "Project 2",
     description:
-      "Description of your second project. Highlight the key features and technical challenges.",
+      "A Chrome extension that tracks how long each tab has been open in your browser. It displays the duration of all open tabs in a popup interface",
     image: "/project2.jpg",
     technologies: ["Node.js", "Express", "MongoDB"],
-    link: "https://github.com/yourusername/project2",
+    link: "https://github.com/emrecanberktas/Tab-Timer",
+  },
+  {
+    title: "Pomodoro Timer",
+    description: "Full Stack Mono Repo Pomodoro Timer (In Progress)",
+    image: "/project2.jpg",
+    technologies: ["Node.js", "Hono", "MongoDB", "Typescript", "React"],
+    link: "https://github.com/emrecanberktas/pomodoro",
   },
   // Add more projects as needed
 ];
