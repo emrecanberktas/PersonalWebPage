@@ -18,11 +18,11 @@ const projects: Project[] = [
     link: "https://github.com/emrecanberktas/Notes",
   },
   {
-    title: "Project 2",
+    title: "Tab Timer",
     description:
       "A Chrome extension that tracks how long each tab has been open in your browser. It displays the duration of all open tabs in a popup interface",
     image: "/project2.jpg",
-    technologies: ["Node.js", "Express", "MongoDB"],
+    technologies: ["Javascript", "CSS", "HTML"],
     link: "https://github.com/emrecanberktas/Tab-Timer",
   },
   {
